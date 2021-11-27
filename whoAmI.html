@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Am I?</title>
+
+    <style>
+        section {
+            width: 20%;
+            border: 2px solid black;
+            border-radius: 5px;
+            margin: 50px auto;
+            display: flex;
+            justify-content: center;
+            height: 400px;
+            box-shadow: 10px 10px 20px #ddd;
+        }
+
+        .container {
+            padding: 10px;
+        }
+
+        .image-div {
+            display: flex;
+            justify-content: center;
+        }
+
+        img {
+            border: 1px solid #ddd;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="image-div">
+                <img id="image" alt="">
+            </div>
+            <div>
+                <h1>Name : <span id="user-name"></span> </h1>
+                <h3>Address : <span id="address"></span> </h3>
+                <h3>Phone : <span id="phone"></span> </h3>
+                <h3>Email : <span id="email"></span> </h3>
+                <h3>Gender : <span id="gender"></span> </h3>
+            </div>
+        </div>
+    </section>
+    <script>
+        function myInfo() {
+            fetch('https://randomuser.me/api/')
+                .then(res => res.json())
+                .then(data => {
+                    const user = data.results[0];
+                    const name = user.name;
+                    const userName = `${name.title} ${name.first} ${name.last}`;
+                    document.getElementById('user-name').innerText = userName;
+
+                    const picture = user.picture;
+                    const mediumSize = picture.large;
+                    document.getElementById('image').setAttribute('src', mediumSize);
+
+                    const address = user.location.country;
+                    document.getElementById('address').innerText = address;
+
+                    const phone = user.phone;
+                    document.getElementById('phone').innerText = phone;
+
+                    const email = user.email;
+                    document.getElementById('email').innerText = email;
+
+                    const gender = user.gender;
+                    document.getElementById('gender').innerText = gender;
+                })
+        };
+        myInfo();
+        setInterval(() => {
+            myInfo();
+        }, 100000);
+    </script>
+</body>
+
+</html>
